@@ -1,8 +1,7 @@
 # Projeto de Infraestrutura de Redes: Condomínio CCBS - UFS
 
 > **Disciplina:** Laboratório de Redes de Computadores (2025.2)  
-> **Departamento:** Computação (DCOMP) - Universidade Federal de Sergipe (UFS)  
-> **Localização:** Campus de São Cristóvão
+> **Departamento:** Computação (DCOMP) - Universidade Federal de Sergipe (UFS)
 
 ## 📌 Visão Geral
 
