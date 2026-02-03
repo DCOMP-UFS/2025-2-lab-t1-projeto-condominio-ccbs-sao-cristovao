@@ -2,6 +2,7 @@
 
 > **Disciplina:** Laboratório de Redes de Computadores (2025.2)  
 > **Departamento:** Computação (DCOMP) - Universidade Federal de Sergipe (UFS)  
+> **Localização:** Campus de São Cristóvão
 
 ## 📌 Visão Geral
 
@@ -23,14 +24,25 @@ Abaixo segue a descrição técnica dos principais arquivos e entregáveis deste
 
 ### `index.html` (Portal do Condomínio CCBS)
 Código-fonte da interface web hospedada na AWS. Trata-se de uma *Single Page Application* (SPA) leve, desenvolvida com **HTML5, CSS3 e Vanilla JavaScript**, sem dependência de frameworks pesados.
+
 * **Funcionalidade:** Utiliza manipulação de DOM para alternar dinamicamente entre as subpáginas dos grupos de pesquisa sem recarregamento da página.
 * **Design:** Implementa um design responsivo e uma paleta de cores institucional (baseada no padrão azul/branco da UFS e CCBS), utilizando variáveis CSS (`:root`) para fácil manutenção.
-* **Grupos Integrados:**
-    * **GESEC:** Gênero, Sexualidade e Estudos Culturais (Psicologia).
-    * **DOM:** Grupo de Pesquisa Dor e Motricidade (Fisioterapia).
-    * **GEPESCEF:** Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física.
-    * **Laboratório de Odontologia.**
-    * **Grupo de Pesquisa Formação e Atuação Docente.**
+* **Grupos Integrados e Acessos:**
+
+    * **GESEC (Gênero, Sexualidade e Estudos Culturais):** Vinculado ao departamento de Psicologia, o projeto foca em dar suporte tecnológico às investigações em Ciências Humanas, garantindo segurança para dados sensíveis.
+        * 🔗 **Acesso:** [http://18.208.246.100](http://18.208.246.100)
+
+    * **GEPESCEF (Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física):** Investiga as interfaces entre esporte, saúde, cultura e sociedade. O portal centraliza seus projetos de pesquisa (PIAs) e produção científica.
+        * 🔗 **Acesso:** [http://3.236.42.58](http://3.236.42.58)
+
+    * **Laboratório de Odontologia:** Infraestrutura voltada para o suporte tecnológico ao ensino e pesquisa odontológica, focando na gestão eficiente de recursos computacionais e confiabilidade de dados.
+        * 🔗 **Acesso:** [http://18.204.231.5](http://18.204.231.5)
+
+    * **Formação e Atuação Docente:** Grupo dedicado a estudos sobre educação, práticas pedagógicas, corporeidade e políticas educacionais, visando a formação continuada de professores.
+        * 🔗 **Acesso:** [http://52.4.95.25](http://52.4.95.25)
+
+    * **DOM (Dor e Motricidade):** Vinculado ao Departamento de Fisioterapia, estuda mecanismos de dor e efeitos terapêuticos de intervenções não farmacológicas.
+        * 🔗 **Acesso:** *(Em breve)*
 
 ### `lista-de-dispositivos.md` (Inventário de Hardware)
 Documento técnico contendo o levantamento quantitativo e as especificações dos ativos de rede e equipamentos terminais orçados.
@@ -46,11 +58,11 @@ Documento técnico contendo o levantamento quantitativo e as especificações do
 * **Front-end:** HTML5, CSS3 (Grid/Flexbox), JavaScript.
 * **Hardware de Referência:** H3C, Ubiquiti, Lenovo, TP-Link (Omada).
 
-## 🌐 Acesso ao Projeto
+## 🌐 Acesso ao Projeto Principal
 
-O portal do Condomínio CCBS está implantado e acessível publicamente através da infraestrutura da AWS Academy.
+O portal central do Condomínio CCBS (integrador) está implantado e acessível publicamente através da infraestrutura da AWS Academy.
 
-🔗 **Acesse aqui:** http://98.81.160.226/#infraestrutura
+🔗 **Acesse o Portal Integrador:** [http://98.81.160.226/#infraestrutura](http://98.81.160.226/#infraestrutura)
 
 ---
 
