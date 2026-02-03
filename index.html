@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCBS/UFS – Centro de Ciências Biológicas e da Saúde</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ccbs-azul-escuro: #0a2463;
+      --ccbs-azul: #1e3a5f;
+      --ccbs-azul-medio: #2563eb;
+      --ccbs-azul-claro: #3b82f6;
+      --ccbs-azul-pastel: #dbeafe;
+      --ccbs-branco: #f8fafc;
+      --ccbs-texto: #1e293b;
+      --ccbs-texto-suave: #64748b;
+      --sombra: 0 4px 20px rgba(10, 36, 99, 0.08);
+      --raio: 12px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: linear-gradient(180deg, #f0f7ff 0%, #e8f4fc 50%, #f8fafc 100%);
+      color: var(--ccbs-texto);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Libre Baskerville', serif; }
+
+    /* Header e navegação */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(135deg, var(--ccbs-azul-escuro) 0%, var(--ccbs-azul) 100%);
+      color: white;
+      box-shadow: var(--sombra);
+    }
+    .site-header .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .site-logo {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .site-nav a {
+      color: rgba(255,255,255,0.95);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .site-nav a:hover, .site-nav a.ativo {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    /* Container principal */
+    .main-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ========== PÁGINA INICIAL ========== */
+    #pagina-inicial {
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .hero-ccbs {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .hero-ccbs h1 {
+      font-size: 2.2rem;
+      color: var(--ccbs-azul-escuro);
+      margin-bottom: 0.5rem;
+    }
+    .hero-ccbs .subtitulo {
+      font-size: 1.15rem;
+      color: var(--ccbs-texto-suave);
+      max-width: 600px;
+      margin: 0 auto 1rem;
+    }
+    .hero-ccbs .instituicao {
+      font-size: 0.95rem;
+      color: var(--ccbs-azul-medio);
+      font-weight: 600;
+    }
+    .grid-subpaginas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card-subpagina {
+      background: white;
+      border-radius: var(--raio);
+      box-shadow: var(--sombra);
+      padding: 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid rgba(30, 58, 95, 0.08);
+    }
+    .card-subpagina:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(10, 36, 99, 0.12);
+      border-color: var(--ccbs-azul-pastel);
+    }
+    .card-subpagina h2 {
+      font-size: 1.2rem;
+      color: var(--ccbs-azul);
+      margin-bottom: 0.5rem;
+    }
+    .card-subpagina p {
+      font-size: 0.9rem;
+      color: var(--ccbs-texto-suave);
+      line-height: 1.5;
+    }
+
+    /* ========== SUBPÁGINAS ========== */
+    .subpage { display: none; animation: fadeIn 0.4s ease; }
+    .subpage.active { display: block; }
+    .subpage .voltar-wrap { margin-bottom: 1rem; }
+    .subpage .voltar { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ccbs-azul-medio); text-decoration: none; font-weight: 500; }
+    .subpage .voltar:hover { text-decoration: underline; }
+
+    /* ----- Formação (visual original intacto) ----- */
+    #formacao { background-color: #f4f6f8; color: #222; font-family: Arial, sans-serif; }
+    #formacao header { background: #003366; color: white; text-align: center; padding: 10px 0; }
+    #formacao header h1 { font-size: 26px; margin-bottom: 5px; }
+    #formacao nav { background: #002244; padding: 6px 0; }
+    #formacao nav a { color: white; text-decoration: none; font-weight: bold; margin: 0 18px; padding: 6px 12px; border-radius: 6px; transition: background 0.3s; display: inline-block; }
+    #formacao nav a:hover { background: #004080; }
+    #formacao main { max-width: 1000px; margin: auto; padding: 30px 20px; }
+    #formacao section.page-section { padding-top: 20px; margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+    #formacao section.page-section:last-of-type { border-bottom: none; }
+    #formacao .section-title { text-align: center; margin-bottom: 30px; color: #003366; font-size: 2em; text-transform: uppercase; }
+    #formacao .card { background: white; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; }
+    #formacao .card p, #formacao .card li { text-align: justify; line-height: 1.7; }
+    #formacao .card:hover { transform: scale(1.05); background-color: #00fff0; box-shadow: 0 10px 25px rgba(0, 255, 240, 0.6); color: #002244; }
+    #formacao .card:hover h2, #formacao .card:hover h3 { color: #002244; }
+    #formacao .card h2 { margin-bottom: 15px; color: #003366; transition: color 0.3s; }
+    #formacao .card h3 { margin-top: 20px; margin-bottom: 10px; color: #003366; font-size: 1.2em; }
+    #formacao .card ul { margin-left: 20px; }
+    #formacao .card li { margin-bottom: 8px; }
+    #formacao footer { background: #002244; color: white; text-align: center; padding: 15px 0; margin-top: 40px; }
+    #formacao footer a { color: #fff; text-decoration: none; }
+    #formacao footer a:hover { text-decoration: underline; }
+
+    /* ----- Gênero / GESEC (visual original intacto) ----- */
+    #genero { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 850px; margin: 0 auto; padding: 20px; background-color: #e9ecef; color: #333; }
+    #genero header { background: #003366; color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    #genero section { background: white; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    #genero h2 { color: #003366; border-bottom: 2px solid #003366; padding-bottom: 8px; margin-top: 25px; }
+    #genero .info { background: #f8f9fa; padding: 15px; border-left: 5px solid #003366; margin-bottom: 20px; }
+    #genero .contact { font-style: italic; color: #555; }
+    #genero footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #666; }
+
+    /* ----- Motricidade DOM (visual original intacto) ----- */
+    #motricidade { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.8; color: #333; max-width: 900px; margin: 0 auto; padding: 40px 20px; background-color: #f4f7f6; }
+    #motricidade header { text-align: center; margin-bottom: 40px; border-bottom: 3px solid #0056b3; padding-bottom: 20px; }
+    #motricidade h1 { color: #0056b3; margin-bottom: 5px; font-size: 2.2rem; }
+    #motricidade h2 { font-size: 1.1rem; color: #555; font-weight: normal; margin-top: 0; }
+    #motricidade h3 { color: #004494; margin-top: 30px; border-left: 5px solid #0056b3; padding-left: 10px; }
+    #motricidade .content { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: justify; }
+    #motricidade .results-box { background-color: #eef6fc; border: 1px solid #d1e7f7; border-radius: 8px; padding: 25px; margin-top: 30px; }
+    #motricidade .results-box ul { list-style-type: none; padding-left: 0; }
+    #motricidade .results-box li { position: relative; padding-left: 25px; margin-bottom: 15px; }
+    #motricidade .results-box li::before { content: "✔"; color: #0056b3; font-weight: bold; position: absolute; left: 0; top: 0; }
+    #motricidade footer { margin-top: 40px; text-align: center; font-size: 0.9rem; color: #777; border-top: 1px solid #ddd; padding-top: 20px; }
+
+    /* ----- Odonto (visual original – estilo básico) ----- */
+    #odonto { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+    #odonto .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    #odonto h1 { font-size: 1.8rem; margin-bottom: 1rem; color: #333; }
+    #odonto h2 { font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #333; }
+    #odonto footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #666; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style id="css-gepescef">
+    /* ----- GEPESCEF (visual original intacto – escopado em #gepescef) ----- */
+    #gepescef { --background: hsl(0, 0%, 96%); --foreground: hsl(0, 0%, 9%); --card: hsl(0, 0%, 98%); --primary: hsl(161, 93%, 30%); --primary-foreground: hsl(151, 80%, 95%); --secondary: hsl(0, 0%, 32%); --secondary-foreground: hsl(0, 0%, 98%); --muted: hsl(0, 0%, 63%); --accent: hsl(166, 76%, 96%); --accent-foreground: hsl(173, 80%, 40%); --border: hsl(0, 0%, 83%); --radius: 0.75rem; font-family: 'Work Sans', sans-serif; background-color: var(--background); color: var(--foreground); line-height: 1.6; }
+    #gepescef h1, #gepescef h2, #gepescef h3, #gepescef h4, #gepescef h5, #gepescef h6 { font-family: 'Lora', serif; }
+    #gepescef .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    #gepescef header { position: relative; z-index: 50; background-color: rgba(250, 250, 250, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    #gepescef header .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    #gepescef .logo { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: bold; color: var(--primary); text-decoration: none; }
+    #gepescef nav { display: flex; gap: 1.5rem; }
+    #gepescef nav a { font-size: 0.875rem; font-weight: 500; color: rgba(23, 23, 23, 0.8); text-decoration: none; transition: color 0.2s; }
+    #gepescef nav a:hover { color: var(--primary); }
+    #gepescef .hero { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding-top: 64px; background: linear-gradient(to bottom, rgba(23, 23, 23, 0.7), rgba(23, 23, 23, 0.8)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1920&q=80') center/cover; text-align: center; color: var(--primary-foreground); }
+    #gepescef .hero-content { max-width: 800px; padding: 2rem; }
+    #gepescef .hero-subtitle { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.9; }
+    #gepescef .hero h1 { font-size: 3rem; font-weight: bold; margin-bottom: 1.5rem; }
+    #gepescef .hero-description { font-size: 1.25rem; margin-bottom: 0.5rem; opacity: 0.9; }
+    #gepescef .hero-text { font-size: 1rem; margin-bottom: 2rem; opacity: 0.8; }
+    #gepescef .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    #gepescef .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 2rem; font-weight: 500; border-radius: var(--radius); text-decoration: none; transition: all 0.2s; }
+    #gepescef .btn-primary { background-color: var(--primary); color: var(--primary-foreground); }
+    #gepescef .btn-primary:hover { opacity: 0.9; }
+    #gepescef .btn-outline { background-color: rgba(255, 255, 255, 0.1); color: var(--primary-foreground); border: 1px solid rgba(255, 255, 255, 0.3); }
+    #gepescef .btn-outline:hover { background-color: rgba(255, 255, 255, 0.2); }
+    #gepescef section { padding: 5rem 0; }
+    #gepescef .section-header { text-align: center; margin-bottom: 3rem; }
+    #gepescef .section-header h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1rem; }
+    #gepescef .section-header p { color: var(--muted); max-width: 600px; margin: 0 auto; }
+    #gepescef .projects { background-color: var(--background); }
+    #gepescef .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    #gepescef .project-card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s; }
+    #gepescef .project-card:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-color: rgba(5, 150, 105, 0.3); }
+    #gepescef .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    #gepescef .project-icon { width: 40px; height: 40px; background-color: var(--accent); color: var(--accent-foreground); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    #gepescef .badges { display: flex; gap: 0.5rem; }
+    #gepescef .badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: 500; }
+    #gepescef .badge-secondary { background-color: var(--secondary); color: var(--secondary-foreground); }
+    #gepescef .badge-outline { border: 1px solid var(--border); color: var(--muted); }
+    #gepescef .project-card h3 { font-size: 1.125rem; margin-bottom: 0.25rem; color: var(--foreground); }
+    #gepescef .project-card h4 { font-size: 0.875rem; font-weight: 500; color: var(--muted); margin-bottom: 1rem; }
+    #gepescef .project-card p { font-size: 0.875rem; color: rgba(23, 23, 23, 0.8); line-height: 1.6; }
+    #gepescef .project-id { font-size: 0.75rem; font-family: monospace; color: var(--muted); margin-top: 1rem; }
+    #gepescef .results { background-color: var(--card); }
+    #gepescef .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    #gepescef .result-item { text-align: center; padding: 1.5rem; border-radius: var(--radius); transition: background-color 0.3s; }
+    #gepescef .result-item:hover { background-color: rgba(204, 251, 241, 0.3); }
+    #gepescef .result-icon { width: 56px; height: 56px; background-color: rgba(5, 150, 105, 0.1); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; transition: all 0.3s; }
+    #gepescef .result-item:hover .result-icon { background-color: var(--primary); color: var(--primary-foreground); }
+    #gepescef .result-item h3 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+    #gepescef .result-item p { font-size: 0.875rem; color: var(--muted); }
+    #gepescef .condominium { background-color: var(--background); }
+    #gepescef .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; }
+    #gepescef .benefit-card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: border-color 0.3s; }
+    #gepescef .benefit-card:hover { border-color: rgba(5, 150, 105, 0.3); }
+    #gepescef .benefit-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    #gepescef .benefit-icon { width: 36px; height: 36px; background-color: var(--accent); color: var(--accent-foreground); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    #gepescef .benefit-card h3 { font-size: 1rem; font-weight: 600; }
+    #gepescef .benefit-card p { font-size: 0.875rem; color: rgba(23, 23, 23, 0.7); }
+    #gepescef .potential-box { background-color: var(--card); border-radius: 1rem; padding: 3rem; max-width: 800px; margin: 0 auto 4rem; }
+    #gepescef .potential-box h3 { font-size: 1.5rem; text-align: center; margin-bottom: 1rem; }
+    #gepescef .potential-box > p { text-align: center; color: var(--muted); margin-bottom: 2rem; }
+    #gepescef .potential-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    #gepescef .potential-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; transition: background-color 0.2s; }
+    #gepescef .potential-item:hover { background-color: rgba(204, 251, 241, 0.3); }
+    #gepescef .check-icon { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+    #gepescef .potential-item span { color: rgba(23, 23, 23, 0.8); }
+    #gepescef .when-box { max-width: 600px; margin: 0 auto; background-color: rgba(5, 150, 105, 0.05); border: 1px solid rgba(5, 150, 105, 0.2); border-radius: var(--radius); padding: 2rem; }
+    #gepescef .when-box h3 { font-size: 1.5rem; color: var(--primary); text-align: center; margin-bottom: 1.5rem; }
+    #gepescef .when-box > p { color: rgba(23, 23, 23, 0.8); margin-bottom: 1rem; }
+    #gepescef .when-list { list-style: none; }
+    #gepescef .when-list li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; }
+    #gepescef .when-list li span { color: rgba(23, 23, 23, 0.8); }
+    #gepescef .contact { background-color: var(--card); }
+    #gepescef .contact-card { max-width: 500px; margin: 0 auto; background-color: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+    #gepescef .contact-card h3 { text-align: center; font-size: 1.25rem; margin-bottom: 1.5rem; }
+    #gepescef .contact-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    #gepescef .contact-item.highlight { background-color: rgba(204, 251, 241, 0.3); }
+    #gepescef .contact-item:not(.highlight) { background-color: var(--card); border: 1px solid var(--border); }
+    #gepescef .contact-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    #gepescef .contact-item.highlight .contact-icon { background-color: rgba(5, 150, 105, 0.1); color: var(--primary); }
+    #gepescef .contact-item:not(.highlight) .contact-icon { background-color: var(--accent); color: var(--accent-foreground); }
+    #gepescef .contact-info h4 { font-family: 'Work Sans', sans-serif; font-weight: 500; margin-bottom: 0.25rem; }
+    #gepescef .contact-info p { font-size: 0.875rem; color: var(--muted); }
+    #gepescef footer { background-color: var(--foreground); color: var(--primary-foreground); padding: 2rem 0; }
+    #gepescef footer .container { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+    #gepescef footer h4 { font-size: 1.125rem; }
+    #gepescef footer p { font-size: 0.875rem; opacity: 0.7; }
+    #gepescef .icon { width: 20px; height: 20px; }
+    #gepescef .icon-lg { width: 24px; height: 24px; }
+    @media (max-width: 768px) { #gepescef nav { display: none; } #gepescef .hero h1 { font-size: 2rem; } #gepescef .hero-description { font-size: 1rem; } #gepescef .section-header h2 { font-size: 1.5rem; } #gepescef .potential-box { padding: 1.5rem; } }
+    @media (min-width: 768px) { #gepescef footer .container { flex-direction: row; justify-content: space-between; text-align: left; } }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="#" class="site-logo" data-pagina="inicio">CCBS / UFS</a>
+    <nav class="site-nav">
+      <a href="#" data-pagina="inicio">Início</a>
+      <a href="#" data-pagina="formacao">Formação e Atuação Docente</a>
+      <a href="#" data-pagina="genero">Gênero e GESEC</a>
+      <a href="#" data-pagina="gepescef">GEPESCEF</a>
+      <a href="#" data-pagina="motricidade">Dor e Motricidade (DOM)</a>
+      <a href="#" data-pagina="odonto">Odontologia</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main-wrap">
+  <!-- PÁGINA INICIAL CCBS -->
+  <div id="pagina-inicial" class="pagina ativo">
+    <section class="hero-ccbs">
+      <h1>Centro de Ciências Biológicas e da Saúde</h1>
+      <p class="subtitulo">Promoção do ensino, pesquisa e extensão em ciências biológicas e da saúde na Universidade Federal de Sergipe.</p>
+      <p class="instituicao">Universidade Federal de Sergipe — UFS</p>
+    </section>
+    <p style="text-align: center; margin-bottom: 2rem; color: var(--ccbs-texto-suave);">Conheça os grupos e projetos vinculados ao CCBS:</p>
+    <div class="grid-subpaginas">
+      <a href="#" class="card-subpagina" data-pagina="formacao">
+        <h2>Formação e Atuação Docente</h2>
+        <p>Grupo de Pesquisa – Formação e Atuação Docente – Interação. Educação, práticas pedagógicas, corporeidade e políticas educacionais.</p>
+      </a>
+      <a href="#" class="card-subpagina" data-pagina="genero">
+        <h2>Gênero, Sexualidade e Estudos Culturais (GESEC)</h2>
+        <p>Projeto de infraestrutura de rede para o GESEC, vinculado ao departamento de Psicologia no CCBS.</p>
+      </a>
+      <a href="#" class="card-subpagina" data-pagina="gepescef">
+        <h2>GEPESCEF</h2>
+        <p>Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física. Interfaces entre esporte, saúde, cultura e sociedade.</p>
+      </a>
+      <a href="#" class="card-subpagina" data-pagina="motricidade">
+        <h2>Dor e Motricidade (DOM)</h2>
+        <p>Grupo de Pesquisa Dor e Motricidade. Departamento de Fisioterapia (UFS). Intervenções não farmacológicas para dor e movimento.</p>
+      </a>
+      <a href="#" class="card-subpagina" data-pagina="odonto">
+        <h2>Laboratório de Odontologia</h2>
+        <p>Infraestrutura de redes de computadores para laboratório de odontologia no CCBS.</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- SUBPÁGINA: Formação e Atuação Docente (visual original intacto) -->
+  <div id="formacao" class="subpage">
+    <div class="voltar-wrap"><a href="#" class="voltar" data-pagina="inicio">← Voltar ao início CCBS</a></div>
+    <header>
+      <h1>Grupo de Pesquisa – UFS</h1>
+      <nav>
+        <a href="#inicio">Início</a>
+        <a href="#objetivos">Objetivos</a>
+        <a href="#infraestrutura">Infraestrutura</a>
+        <a href="#projetos">Projetos</a>
+      </nav>
+    </header>
+    <main>
+      <section id="inicio" class="page-section">
+        <h1 class="section-title">Início</h1>
+        <div class="card">
+          <h2>Quem Somos</h2>
+          <p>O Grupo de Pesquisa Formação e Atuação Docente – Interação, vinculado à Universidade Federal de Sergipe (UFS), desenvolve estudos voltados à educação, práticas pedagógicas, corporeidade, formação continuada e políticas educacionais.</p>
+          <p>Nosso objetivo é fortalecer a produção acadêmica, incentivar a formação de professores e ampliar a divulgação científica por meio de projetos, eventos e publicações.</p>
+        </div>
+        <div class="card">
+          <h2>Áreas de Atuação</h2>
+          <ul>
+            <li>Formação inicial e continuada de professores</li>
+            <li>Didática e práticas pedagógicas</li>
+            <li>Corporeidade e educação</li>
+            <li>Políticas educacionais</li>
+            <li>Pesquisa e extensão universitária</li>
+          </ul>
+        </div>
+      </section>
+      <section id="objetivos" class="page-section">
+        <h1 class="section-title">Objetivos</h1>
+        <div class="card">
+          <h2>Objetivos do Projeto</h2>
+          <p>O projeto tem como objetivo implementar uma infraestrutura tecnológica básica e confiável que dê suporte às atividades do Grupo de Pesquisa Formação e Atuação de Educadores – Interação, promovendo conectividade, segurança e continuidade para as ações de formação docente, interação acadêmica e produção científica.</p>
+          <p>As pesquisas abrangem didática, práticas pedagógicas e os saberes conceituais e práticos que envolvem a formação de educadores em espaços formais e informais de educação.</p>
+          <p>As atividades do grupo compreendem reuniões de estudo, discussão de projetos em andamento, participação em eventos científicos e produção de artigos.</p>
+        </div>
+        <div class="card">
+          <h2>Resultados Esperados</h2>
+          <ul>
+            <li>Ampliação da visibilidade das pesquisas desenvolvidas</li>
+            <li>Organização das produções acadêmicas</li>
+            <li>Apoio às atividades de ensino, pesquisa e extensão</li>
+          </ul>
+        </div>
+      </section>
+      <section id="infraestrutura" class="page-section">
+        <h1 class="section-title">Infraestrutura</h1>
+        <div class="card">
+          <h2>Infraestrutura Tecnológica</h2>
+          <p>O projeto de rede do Lab-redes-CCBS foi desenvolvido com base nas necessidades reais de um condomínio acadêmico voltado à formação docente, interação acadêmica e produção científica.</p>
+          <ul>
+            <li><strong>Nobreak (UPS):</strong> Continuidade em quedas de energia.</li>
+            <li><strong>Refrigeração:</strong> Condições térmicas ideais.</li>
+            <li><strong>Cabeamento Estruturado:</strong> CAT6 / Fibra OM3/OM4.</li>
+            <li><strong>Rede LAN:</strong> Conectividade estável.</li>
+            <li><strong>Wi-Fi 6:</strong> Mobilidade e flexibilidade.</li>
+            <li><strong>Switch Gerenciável L2+:</strong> Distribuição eficiente.</li>
+            <li><strong>Gateway VPN:</strong> Controle e segurança.</li>
+            <li><strong>Firewall:</strong> Proteção contra ataques.</li>
+            <li><strong>Servidor Web:</strong> Hospedagem dos portais.</li>
+            <li><strong>Computadores/notebook:</strong> Para o desenvolvimento das pesquisas.</li>
+          </ul>
+          <p>Essa infraestrutura transforma o condomínio em um ambiente integrado, seguro e funcional.</p>
+        </div>
+      </section>
+      <section id="projetos" class="page-section">
+        <h1 class="section-title">Projetos</h1>
+        <div class="card">
+          <h2>Resumo Geral</h2>
+          <p>Os projetos do Grupo de Pesquisa Interação investigam formação docente, práticas pedagógicas, corporeidade, evasão, psicomotricidade, políticas educacionais e desenvolvimento profissional, contribuindo para a produção científica e a qualificação de educadores.</p>
+        </div>
+        <div class="card">
+          <h2>Projetos por Ano</h2>
+          <h3>2012</h3>
+          <ul>
+            <li>PVA252-2012 – Educação e Corporeidade: Estudo sobre a Síndrome de Burnout e o Enfrentamento das Dificuldades no Exercício da Docência na Educação Básica</li>
+          </ul>
+          <h3>2013</h3>
+          <ul>
+            <li>PVA1197-2013 – Estudo sobre Metodologias Inovadoras do Componente Curricular Educação Física na Educação Básica</li>
+            <li>PVA1145-2013 – Educação e Corporeidade: Estudo sobre a Síndrome de Burnout e o Enfrentamento das Dificuldades no Exercício da Docência na Educação Básica</li>
+          </ul>
+          <h3>2014</h3>
+          <ul>
+            <li>PVA2238-2014 – A criança na cibercultura: o brincar analógico e o digital</li>
+          </ul>
+          <h3>2015</h3>
+          <ul>
+            <li>PVA3615-2015 – Efeitos da Psicomotricidade nos Casos de TDAH em Crianças de 05 a 07 Anos de Idade</li>
+            <li>PVA3632-2015 – Efeitos da Psicomotricidade nos Casos de TDAH em Crianças de 05 a 07 Anos de Idade</li>
+          </ul>
+          <h3>2016</h3>
+          <ul>
+            <li>PVA4651-2016 – Estudo acerca dos Fatores Estressantes Inerentes ao Exercício da Docência na Rede Pública e Privada de Aracaju</li>
+          </ul>
+          <h3>2017</h3>
+          <ul>
+            <li>PVA5348-2017 – Valorização da Docência a partir da Formação Continuada no Ensino Fundamental</li>
+            <li>PVA6088-2017 – A evasão discente nos cursos de Licenciatura e Bacharelado em Educação Física da UFS</li>
+          </ul>
+          <h3>2018</h3>
+          <ul>
+            <li>PVA6598-2018 – Formação Continuada de Professores nas Escolas de Aracaju</li>
+            <li>PVA7055-2018 – Permanência na Educação Superior – Licenciatura em Educação Física (UFS)</li>
+            <li>PVA6924-2018 – Permanência na Educação Superior – Licenciatura em Educação Física (UFS)</li>
+          </ul>
+          <h3>2019</h3>
+          <ul>
+            <li>PVA8068-2019 – Bibliografias da História da Educação Física: Circulação Brasil–França</li>
+            <li>PVA7816-2019 – Residência Pedagógica/UFS e Formação Continuada</li>
+            <li>PVA8387-2019 – Estágio Curricular Supervisionado na Licenciatura em Educação Física</li>
+            <li>PIE8479-2019 – Desempenho Acadêmico no Curso de Licenciatura em Física da UFS</li>
+          </ul>
+          <h3>2020</h3>
+          <ul>
+            <li>PIA9514-2020 – Supressão do Livre Brincar na Educação Infantil</li>
+            <li>PIA9176-2020 – Formação Continuada na Educação Infantil</li>
+            <li>PIA9187-2020 – Formação Continuada na Educação Infantil</li>
+            <li>PIA8933-2020 – Formação Continuada no Colégio de Aplicação/UFS</li>
+          </ul>
+          <h3>2021</h3>
+          <ul>
+            <li>PIA10133-2021 – Formação Continuada durante a Pandemia</li>
+            <li>PIA10307-2021 – Importância da Formação Continuada na COVID-19</li>
+          </ul>
+          <h3>2022</h3>
+          <ul>
+            <li>PIA11573-2022 – Demandas de Formação Continuada frente à BNCC</li>
+            <li>PIA11280-2022 – Teorias da Aprendizagem na Formação Docente</li>
+          </ul>
+          <h3>2023</h3>
+          <ul>
+            <li>PIA12659-2023 – Evasão na Licenciatura em Educação Física da UFS</li>
+            <li>PIA13033-2023 – A BNCC na Sala de Aula</li>
+            <li>PIA12906-2023 – Revisão sobre Formação Docente no Nordeste</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div>Grupo de Pesquisa – UFS</div>
+      <div style="margin-top: 10px;">
+        <a href="https://github.com/JoseWeverton1" target="_blank" rel="noopener">🔗 GitHub – JoseWeverton1</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SUBPÁGINA: Gênero / GESEC (visual original intacto) -->
+  <div id="genero" class="subpage">
+    <div class="voltar-wrap"><a href="#" class="voltar" data-pagina="inicio">← Voltar ao início CCBS</a></div>
+    <header>
+      <h1>Laboratório de Redes - UFS</h1>
+      <p>Projeto de Infraestrutura de Rede Local</p>
+    </header>
+    <section>
+      <div class="info">
+        <p><strong>Aluno:</strong> Carlos Gabriel Dias Fontes</p>
+        <p><strong>Professora:</strong> Edilayne</p>
+        <p><strong>Cliente:</strong> Gênero, Sexualidade e Estudos Culturais (GESEC)</p>
+        <p><strong>Coordenadora:</strong> Claudiene Santos</p>
+        <p class="contact">Contato: rpclaudiene@gmail.com</p>
+      </div>
+      <h2>O Projeto: Infraestrutura para o GESEC (CCBS)</h2>
+      <p>Este projeto visa implementar a infraestrutura de rede para o grupo de pesquisa <strong>GESEC</strong>, vinculado ao departamento de <strong>Psicologia</strong> no <strong>Centro de Ciências Biológicas e da Saúde (CCBS)</strong>. O foco é dar suporte tecnológico às investigações em <strong>Ciências Humanas</strong>.</p>
+      <h2>Resultados Esperados</h2>
+      <ul>
+        <li>Conectividade segura para armazenamento de entrevistas e dados qualitativos sensíveis.</li>
+        <li>Acesso ágil a repositórios digitais e bibliotecas de periódicos de Ciências Humanas e Sociais.</li>
+        <li>Estabilidade para a realização de videoconferências e grupos de estudo remotos.</li>
+      </ul>
+      <h2>Integração ao Condomínio de Laboratórios</h2>
+      <p>A inclusão do GESEC na proposta de <strong>condomínio de laboratórios</strong> traz benefícios estratégicos:</p>
+      <ul>
+        <li><strong>Segurança da Informação:</strong> Proteção de dados éticos e sigilosos através de segmentação de rede (VLANs).</li>
+        <li><strong>Interdisciplinaridade:</strong> Facilidade na troca de grandes volumes de dados entre a Psicologia e outras áreas da saúde.</li>
+        <li><strong>Otimização de Recursos:</strong> Compartilhamento de servidores de backup e storage centralizado no CCBS.</li>
+      </ul>
+    </section>
+    <footer>
+      DCOMP - Departamento de Computação - Universidade Federal de Sergipe
+    </footer>
+  </div>
+
+  <!-- SUBPÁGINA: GEPESCEF (visual original intacto) -->
+  <div id="gepescef" class="subpage">
+    <div class="voltar-wrap"><a href="#" class="voltar" data-pagina="inicio">← Voltar ao início CCBS</a></div>
+    <header>
+      <div class="container">
+        <a href="#gepescef-inicio" class="logo">GEPESCEF</a>
+        <nav>
+          <a href="#gepescef-inicio">Início</a>
+          <a href="#gepescef-projetos">Projetos</a>
+          <a href="#gepescef-resultados">Resultados</a>
+          <a href="#gepescef-condominio">Condomínio</a>
+          <a href="#gepescef-contato">Contato</a>
+        </nav>
+      </div>
+    </header>
+    <section class="hero" id="gepescef-inicio">
+      <div class="hero-content">
+        <p class="hero-subtitle">Grupo de Pesquisa Individual</p>
+        <h1>GEPESCEF</h1>
+        <p class="hero-description">Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física</p>
+        <p class="hero-text">Investigando as interfaces entre esporte, saúde, cultura e sociedade através de pesquisas acadêmicas de excelência</p>
+        <div class="hero-buttons">
+          <a href="#gepescef-projetos" class="btn btn-primary">Conheça Nossos Projetos</a>
+          <a href="#gepescef-condominio" class="btn btn-outline">Condomínio de Laboratórios</a>
+        </div>
+      </div>
+    </section>
+    <section class="projects" id="gepescef-projetos">
+      <div class="container">
+        <div class="section-header">
+          <h2>Projetos de Pesquisa</h2>
+          <p>Conheça os principais projetos desenvolvidos pelo GEPESCEF, abordando temas relevantes para a Educação Física, sociedade e cultura</p>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </div>
+              <div class="badges">
+                <span class="badge badge-secondary">PIA</span>
+                <span class="badge badge-outline">2022</span>
+              </div>
+            </div>
+            <h3>Esporte, Saúde e COVID-19</h3>
+            <h4>Uma Análise Documental Desvelando Discursos Midiáticos na Pandemia</h4>
+            <p>Investigação dos discursos midiáticos sobre esporte e saúde durante a pandemia de COVID-19, analisando como a mídia construiu narrativas sobre práticas esportivas e seus impactos na saúde pública.</p>
+            <p class="project-id">PIA11064-2022</p>
+          </div>
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              </div>
+              <div class="badges">
+                <span class="badge badge-secondary">PIA</span>
+                <span class="badge badge-outline">2021</span>
+              </div>
+            </div>
+            <h3>Teoria da Salutogênese na Educação Física</h3>
+            <h4>Interfaces com as Atividades Físicas e Práticas Corporais</h4>
+            <p>Revisão de escopo sobre os usos da teoria da salutogênese na Educação Física, explorando como o conceito de promoção da saúde se articula com atividades físicas e práticas corporais.</p>
+            <p class="project-id">PIA9897-2021</p>
+          </div>
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path></svg>
+              </div>
+              <div class="badges">
+                <span class="badge badge-secondary">PIA</span>
+                <span class="badge badge-outline">2023</span>
+              </div>
+            </div>
+            <h3>Racismo, Esporte e Futebol</h3>
+            <h4>Estudo Panorâmico-Monográfico nos Periódicos da Educação Física</h4>
+            <p>Análise panorâmica e monográfica das produções acadêmicas sobre racismo no esporte, com foco especial no futebol brasileiro e suas representações nos periódicos da área.</p>
+            <p class="project-id">PIA12626-2023</p>
+          </div>
+          <div class="project-card">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+              </div>
+              <div class="badges">
+                <span class="badge badge-secondary">PEA</span>
+                <span class="badge badge-outline">2023</span>
+              </div>
+            </div>
+            <h3>Racismo no Esporte Brasileiro</h3>
+            <h4>Análise Extensiva nos Periódicos Acadêmicos</h4>
+            <p>Extensão do estudo sobre racismo no esporte, ampliando o escopo de análise e aprofundando a investigação sobre as manifestações de preconceito racial no contexto esportivo nacional.</p>
+            <p class="project-id">PEA13304-2023</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="results" id="gepescef-resultados">
+      <div class="container">
+        <div class="section-header">
+          <h2>Resultados Esperados</h2>
+          <p>Os projetos do GEPESCEF visam alcançar resultados significativos para a comunidade acadêmica e para a sociedade</p>
+        </div>
+        <div class="results-grid">
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <h3>Produção Científica</h3>
+            <p>Publicação de artigos em periódicos qualificados, contribuindo para o avanço do conhecimento na área de Educação Física e Ciências do Esporte.</p>
+          </div>
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            </div>
+            <h3>Formação de Pesquisadores</h3>
+            <p>Capacitação de estudantes de graduação e pós-graduação, desenvolvendo competências em pesquisa científica e análise crítica.</p>
+          </div>
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+            <h3>Impacto Social</h3>
+            <p>Geração de conhecimento aplicável que possa influenciar políticas públicas e práticas profissionais na área do esporte e saúde.</p>
+          </div>
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+            </div>
+            <h3>Inovação Metodológica</h3>
+            <p>Desenvolvimento e aplicação de metodologias inovadoras de pesquisa, incluindo revisões de escopo e análises documentais.</p>
+          </div>
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            </div>
+            <h3>Dados e Evidências</h3>
+            <p>Consolidação de bases de dados e evidências científicas sobre temáticas relevantes como racismo no esporte e saúde na pandemia.</p>
+          </div>
+          <div class="result-item">
+            <div class="result-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3>Visibilidade Acadêmica</h3>
+            <p>Ampliação da presença do grupo em eventos científicos e redes de colaboração nacionais e internacionais.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="condominium" id="gepescef-condominio">
+      <div class="container">
+        <div class="section-header">
+          <h2>Condomínio de Laboratórios</h2>
+          <p>Conheça os benefícios e potencialidades da adesão à proposta de condomínio de laboratórios para potencializar nossas pesquisas</p>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-header">
+              <div class="benefit-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+              </div>
+              <h3>Infraestrutura Compartilhada</h3>
+            </div>
+            <p>Acesso a equipamentos e instalações de ponta que seriam inacessíveis individualmente.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-header">
+              <div class="benefit-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path></svg>
+              </div>
+              <h3>Colaboração Interdisciplinar</h3>
+            </div>
+            <p>Oportunidade de desenvolver projetos conjuntos com pesquisadores de diferentes áreas.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-header">
+              <div class="benefit-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+              </div>
+              <h3>Rede de Conhecimento</h3>
+            </div>
+            <p>Integração a uma rede de grupos de pesquisa, ampliando possibilidades de parcerias.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-header">
+              <div class="benefit-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <h3>Otimização de Recursos</h3>
+            </div>
+            <p>Melhor aproveitamento do tempo e recursos através de processos colaborativos.</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-header">
+              <div class="benefit-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              </div>
+              <h3>Redução de Custos</h3>
+            </div>
+            <p>Divisão de custos operacionais e de manutenção entre os grupos participantes.</p>
+          </div>
+        </div>
+        <div class="potential-box">
+          <h3>Potencial de Pesquisa com o Condomínio</h3>
+          <p>Com a adesão ao condomínio de laboratórios, o GEPESCEF poderá ampliar significativamente o escopo e a qualidade de suas investigações:</p>
+          <div class="potential-list">
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Estudos com coleta de dados fisiológicos e biomecânicos</span>
+            </div>
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Pesquisas experimentais com controle de variáveis</span>
+            </div>
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Análises quali-quantitativas integradas</span>
+            </div>
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Estudos longitudinais com acompanhamento sistemático</span>
+            </div>
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Investigações com tecnologias de ponta em análise de movimento</span>
+            </div>
+            <div class="potential-item">
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Pesquisas interdisciplinares com múltiplos olhares metodológicos</span>
+            </div>
+          </div>
+        </div>
+        <div class="when-box">
+          <h3>Quando Aderir à Proposta?</h3>
+          <p>A adesão ao condomínio de laboratórios é recomendada quando:</p>
+          <ul class="when-list">
+            <li>
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Seus projetos demandam recursos de infraestrutura não disponíveis internamente</span>
+            </li>
+            <li>
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Há interesse em desenvolver pesquisas colaborativas com outros grupos</span>
+            </li>
+            <li>
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Busca-se ampliar o impacto e a qualidade metodológica das investigações</span>
+            </li>
+            <li>
+              <svg class="check-icon icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>O grupo está preparado para contribuir com a gestão compartilhada do espaço</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="contact" id="gepescef-contato">
+      <div class="container">
+        <div class="section-header">
+          <h2>Contato</h2>
+          <p>Entre em contato para saber mais sobre o GEPESCEF e nossas pesquisas</p>
+        </div>
+        <div class="contact-card">
+          <h3>Equipe</h3>
+          <div class="contact-item highlight">
+            <div class="contact-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
+            <div class="contact-info">
+              <h4>Cristiano Mezzaroba</h4>
+              <p>Coordenador do Grupo</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
+            <div class="contact-info">
+              <h4>Cauan Teixeira Machado</h4>
+              <p>Responsável Técnico</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <div class="contact-info">
+              <h4>GEPESCEF</h4>
+              <p>Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="container">
+        <div>
+          <h4>GEPESCEF</h4>
+          <p>Grupo de Estudos e Pesquisas Sociedade, Cultura e Educação Física</p>
+        </div>
+        <div>
+          <p>© 2025 GEPESCEF. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SUBPÁGINA: Dor e Motricidade (DOM) (visual original intacto) -->
+  <div id="motricidade" class="subpage">
+    <div class="voltar-wrap"><a href="#" class="voltar" data-pagina="inicio">← Voltar ao início CCBS</a></div>
+    <header>
+      <h1>Grupo de Pesquisa Dor e Motricidade (DOM)</h1>
+      <h2>Universidade Federal de Sergipe (UFS)</h2>
+    </header>
+    <div class="content">
+      <p>
+        O <strong>Grupo de Pesquisa Dor e Motricidade (DOM)</strong>, liderado pela professora Josimari Melo de Santana, foi criado em 2009. Vinculado ao Departamento de Fisioterapia (DFT) da Universidade Federal de Sergipe (UFS), possui seis linhas de pesquisa, com a finalidade de estudar mecanismos de ação e efeitos terapêuticos de intervenções não farmacológicas para melhora da dor e do movimento.
+      </p>
+      <p>
+        Desde 2009, tem parcerias com grupos de pesquisa nacionais (Universidade Federal de Brasília: João Durigan; Universidade Federal da Paraíba: Joseane Oliveira; Universidade de São Paulo: Camila Torriani Pasin) e internacionais (The University of Iowa (EUA): Kathleen Sluka e Barbara Rakel; Aalborg University: Lars Arendt-Nielsen).
+      </p>
+      <p>
+        O DOM administra o <strong>Laboratório de Pesquisa em Neurociências (LAPENE)</strong>. É importante enfatizar que foi formalizado um convênio de cooperação internacional entre a UFS e a University of Iowa, nos EUA. A produção acadêmica decorrente desses estudos resultou em diversos artigos publicados em periódicos especializados e trabalhos apresentados, principalmente em eventos científicos nacionais e internacionais.
+      </p>
+      <p>
+        As ações desenvolvidas estão voltadas para mecanismos fisiopatológicos e disfuncionais relacionados à dor crônica, como a fibromialgia, ou distúrbios de movimento em pacientes neurológicos. Ademais, investigamos efeitos terapêuticos e mecanismos de ação de recursos e métodos fisioterapêuticos e não-farmacológicos em diferentes estudos clínicos e pré-clínicos.
+      </p>
+      <div class="results-box">
+        <h3>Resultados Esperados com a Montagem do Novo Laboratório</h3>
+        <p>Com a expansão da infraestrutura e a aquisição de novos equipamentos para o laboratório, o grupo DOM projeta alcançar os seguintes marcos:</p>
+        <ul>
+          <li><strong>Avanço na Instrumentação:</strong> Implementação de novas tecnologias para avaliação quantitativa da dor e controle motor, permitindo coletas de dados mais precisas e reprodutíveis.</li>
+          <li><strong>Ampliação da Capacidade de Atendimento:</strong> Aumento do número de pacientes beneficiados pelos projetos de extensão e ensaios clínicos voltados para dor crônica e reabilitação neurológica.</li>
+          <li><strong>Fortalecimento da Internacionalização:</strong> Consolidação da parceria com a University of Iowa e Aalborg University através de novos projetos multicêntricos viabilizados pela nova estrutura.</li>
+          <li><strong>Formação de Recursos Humanos:</strong> Criação de um ambiente de excelência para o treinamento prático de alunos de Graduação, Mestrado e Doutorado em técnicas avançadas de neurociência.</li>
+          <li><strong>Produção Científica de Alto Impacto:</strong> Aumento na publicação de artigos em revistas Qualis A, decorrentes da maior robustez metodológica proporcionada pelo novo laboratório.</li>
+        </ul>
+      </div>
+      <p style="margin-top: 30px; font-size: 0.95em;">
+        Atualmente, o grupo conta com 24 participantes, entre docentes, discentes e colaboradores, distribuídos em todos os níveis do ensino superior (graduandos, mestrandos, doutorandos, mestres, doutores e pós-doutores).
+      </p>
+    </div>
+    <footer>
+      <p>&copy; 2026 Grupo DOM - Departamento de Fisioterapia (UFS).<br>Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- SUBPÁGINA: Odontologia (visual original intacto) -->
+  <div id="odonto" class="subpage">
+    <div class="voltar-wrap"><a href="#" class="voltar" data-pagina="inicio">← Voltar ao início CCBS</a></div>
+    <div class="container">
+      <h1>Grupo de Pesquisa Individual</h1>
+      <h2>Resultados Esperados com o Projeto Proposto</h2>
+      <p>
+        O projeto proposto tem como objetivo o desenvolvimento e a implantação de uma
+        infraestrutura de <strong>redes de computadores</strong> voltada à administração
+        e ao suporte tecnológico de um <strong>laboratório de odontologia</strong>, inserido
+        no contexto do <strong>Centro de Ciências Biológicas e da Saúde</strong>.
+      </p>
+      <p>
+        A infraestrutura de rede será projetada para garantir conectividade estável,
+        segurança da informação, disponibilidade dos serviços e organização lógica dos
+        recursos computacionais, atendendo às necessidades de ensino, pesquisa científica
+        e atividades laboratoriais. O projeto contempla a segmentação da rede, a integração
+        de equipamentos de laboratório, estações de trabalho, servidores e dispositivos de
+        rede, proporcionando um ambiente controlado e eficiente para o uso acadêmico e
+        científico.
+      </p>
+      <p>
+        Como resultados esperados, destacam-se a melhoria na gestão dos recursos
+        computacionais, o aumento da confiabilidade da comunicação de dados, a proteção
+        das informações acadêmicas e científicas, e a criação de uma base tecnológica
+        adequada para futuras expansões do laboratório.
+      </p>
+      <h2>Resultados do Projeto de Redes no Serviço à Ciência</h2>
+      <p>
+        A implementação do projeto de redes de computadores no laboratório de odontologia
+        possibilita a integração entre tecnologia da informação e ciências da saúde,
+        promovendo suporte eficiente às atividades científicas, didáticas e administrativas.
+      </p>
+      <p>
+        Por meio de uma infraestrutura de rede bem planejada, torna-se viável o
+        compartilhamento seguro de dados, o acesso controlado a sistemas laboratoriais,
+        a comunicação entre equipamentos especializados e a centralização dos serviços
+        de rede. Essa abordagem contribui para a organização do ambiente laboratorial,
+        a padronização dos processos tecnológicos e o fortalecimento da produção científica
+        no âmbito do Centro de Ciências Biológicas e da Saúde.
+      </p>
+      <p>
+        O projeto também favorece a formação acadêmica dos estudantes, ao proporcionar
+        contato prático com conceitos de redes de computadores aplicados a um ambiente
+        real da área da saúde, alinhando conhecimento técnico, responsabilidade profissional
+        e inovação científica.
+      </p>
+      <footer>
+        <p>Projeto de Redes de Computadores — Laboratório de Odontologia<br>
+        Centro de Ciências Biológicas e da Saúde</p>
+      </footer>
+    </div>
+  </div>
+</main>
+
+<script>
+(function() {
+  var paginas = ['pagina-inicial', 'formacao', 'genero', 'gepescef', 'motricidade', 'odonto'];
+  function mostrar(id) {
+    var elInicio = document.getElementById('pagina-inicial');
+    var elSub = document.getElementById(id);
+    if (elInicio) elInicio.classList.toggle('ativo', id === 'pagina-inicial');
+    paginas.forEach(function(p) {
+      var el = document.getElementById(p);
+      if (!el) return;
+      if (p === 'pagina-inicial') {
+        el.style.display = id === 'pagina-inicial' ? 'block' : 'none';
+      } else {
+        el.classList.toggle('active', p === id);
+      }
+    });
+    document.querySelectorAll('.site-nav a').forEach(function(a) {
+      var p = a.getAttribute('data-pagina');
+      a.classList.toggle('ativo', (p === 'inicio' && id === 'pagina-inicial') || p === id);
+    });
+  }
+  document.querySelectorAll('[data-pagina]').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var p = this.getAttribute('data-pagina');
+      var id = p === 'inicio' ? 'pagina-inicial' : p;
+      mostrar(id);
+    });
+  });
+  mostrar('pagina-inicial');
+})();
+</script>
+</body>
+</html>
