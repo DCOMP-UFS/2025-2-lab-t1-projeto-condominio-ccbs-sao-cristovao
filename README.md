@@ -41,7 +41,7 @@ Código-fonte da interface web hospedada na AWS. Trata-se de uma *Single Page Ap
         * 🔗 **Acesso:** [http://52.4.95.25](http://52.4.95.25)
 
     * **DOM (Dor e Motricidade):** Vinculado ao Departamento de Fisioterapia, estuda mecanismos de dor e efeitos terapêuticos de intervenções não farmacológicas.
-        * 🔗 **Acesso:** [https://100.53.67.130](https://100.53.67.130)
+        * 🔗 **Acesso:** [https://35.172.240.136](https://35.172.240.136)
 
 ### `lista-de-dispositivos.md` (Inventário de Hardware)
 Documento técnico contendo o levantamento quantitativo e as especificações dos ativos de rede e equipamentos terminais orçados.
